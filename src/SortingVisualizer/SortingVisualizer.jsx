@@ -3,7 +3,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/mergeSort';
 import {getbubbleSortAnimations} from '../SortingAlgorithms/bubbleSort';
 import {getQuickSortAnimations} from '../SortingAlgorithms/quickSort';
 import './SortingVisualizer.css';
-import TopBar from '../Component/TopBar.jsx';
+import NavBar from '../Component/NavBar/NavBar';
 
 // Change this value for the speed of the animations.
 const ANIMATION_SPEED_MS = 2;
@@ -23,7 +23,6 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      sorting:false
     };
   }
 
@@ -31,13 +30,14 @@ export default class SortingVisualizer extends React.Component {
     this.resetArray();
   }
 
-  resetArray() {
+  resetArray=()=> {
     const array = [];
     for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
       array.push(randomIntFromInterval(5, 730));
     }
     this.setState({array});
   }
+
 
   mergeSort() {
     const animations = getMergeSortAnimations(this.state.array);
@@ -89,8 +89,6 @@ export default class SortingVisualizer extends React.Component {
     }
   }
 
-
-
   bubbleSort() {
     const animations = getbubbleSortAnimations(this.state.array);
     // console.log(animations);
@@ -123,9 +121,7 @@ export default class SortingVisualizer extends React.Component {
     console.log("gogogo!!")
   }
 
-  // NOTE: This method will only work if your sorting algorithms actually return
-  // the sorted arrays; if they return the animations (as they currently do), then
-  // this method will be broken.
+
   testSortingAlgorithms() {
     for (let i = 0; i < 100; i++) {
       const array = [];
@@ -144,13 +140,12 @@ export default class SortingVisualizer extends React.Component {
 
     return (
       <React.Fragment>
-        <TopBar 
-          sorting = {this.state.sorting}
+        <NavBar 
           bubble ={() => this.bubbleSort()}
           merge ={() => this.mergeSort()} 
           quick ={() => this.quickSort()}
-          new = {() => this.resetArray()}>
-        </TopBar>
+          reset ={()=> this.resetArray()}
+          />
         <div className="array-container">
           {array.map((value, idx) => (
             <div
@@ -161,10 +156,6 @@ export default class SortingVisualizer extends React.Component {
                 height: `${value}px`,
               }}></div>
           ))}
-          
-          {/* <button onClick={() => this.testSortingAlgorithms()}>
-            Test Sorting Algorithms
-          </button> */}
         </div>
       </React.Fragment>
     );
