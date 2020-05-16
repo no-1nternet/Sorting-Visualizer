@@ -6,10 +6,7 @@ import './SortingVisualizer.css';
 import NavBar from '../Component/NavBar/NavBar';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 2;
-
-// Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 150;
+const ANIMATION_SPEED_MS = 3;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = '#3399ff';
@@ -20,11 +17,16 @@ const SECONDARY_COLOR = 'red';
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
     super(props);
-
+    const h = this.props.windowSize.height;
+    const w = this.props.windowSize.width;
+    const nBars = Math.floor((w/4*3-120)/6);
+    const maxBarH= Math.floor((h-220));
     this.state = {
       array: [],
       sorting: false,
-      sorted:false
+      sorted:false,
+      numBars:nBars,
+      maxValue:maxBarH
     };
   }
 
@@ -34,8 +36,8 @@ export default class SortingVisualizer extends React.Component {
 
   resetArray=()=> {
     const array = [];
-    for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
-      array.push(randomIntFromInterval(5, 730));
+    for (let i = 0; i < this.state.numBars; i++) {
+      array.push(randomIntFromInterval(5, this.state.maxValue));
     }
     this.setState({array,
                   sorted:false});
