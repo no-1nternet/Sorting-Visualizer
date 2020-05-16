@@ -23,11 +23,15 @@ const NavBar = props =>{
                         Quick Sort</div></li>
                 </ul>
             </nav>
-            <button onClick={   algoName==="quick"  ?props.quick  :
+            <button onClick={    algoName==="quick"  ?props.quick  :
                                  algoName==="merge" ?props.merge :
-                                 algoName==="bubble"?props.bubble :console.log("nah")}>
-                            {algoName==="none"? "Please select algorithon": "Start Sorting!"}</button>
-            <button onClick={props.reset}>Generate New Array</button>
+                                 algoName==="bubble"?props.bubble :()=>{console.log("nah")}}
+                    disabled=   {props.sorting||props.sorted}>
+                                {algoName==="none"? "Please select algorithon":
+                                props.sorting===true? "Sorting...":
+                                props.sorted===true? "Sorted": "Start Sorting!"}</button>
+            <button onClick={props.reset}
+                    disabled={props.sorting===true} >Generate New Array{}</button>
         </React.Fragment>
         
     );

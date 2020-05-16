@@ -1,6 +1,6 @@
 import {swap} from '../Shared/Util';
 
-export function quickSortHelper(arr){
+function quickSortHelper(arr){
      const animations = []
      return quickSort(arr,0,arr.length-1,animations);
 };

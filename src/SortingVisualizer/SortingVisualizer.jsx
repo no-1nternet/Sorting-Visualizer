@@ -23,6 +23,8 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
+      sorting: false,
+      sorted:false
     };
   }
 
@@ -35,12 +37,14 @@ export default class SortingVisualizer extends React.Component {
     for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
       array.push(randomIntFromInterval(5, 730));
     }
-    this.setState({array});
+    this.setState({array,
+                  sorted:false});
   }
 
-
   mergeSort() {
-    const animations = getMergeSortAnimations(this.state.array);
+    this.setState({sorting:true});
+    const arrCopy=this.state.array.slice();
+    const animations = getMergeSortAnimations(arrCopy);
     const arrayBars = document.getElementsByClassName('array-bar');
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
@@ -61,10 +65,16 @@ export default class SortingVisualizer extends React.Component {
         }, i * ANIMATION_SPEED_MS);
       }
     }
+    setTimeout(() => {
+      this.setState({sorting:false,
+                     sorted:true});
+    }, animations.length * ANIMATION_SPEED_MS);
   }
 
   quickSort() {
-    const animations = getQuickSortAnimations(this.state.array);
+    this.setState({sorting:true});
+    const arrCopy=this.state.array.slice();
+    const animations = getQuickSortAnimations(arrCopy);
     const arrayBars = document.getElementsByClassName('array-bar');
     for (let i = 0; i < animations.length; i++) {
       const [barOneIdx,barTwoIdx,aniType] = animations[i];
@@ -87,12 +97,16 @@ export default class SortingVisualizer extends React.Component {
         }, i*ANIMATION_SPEED_MS);
       }
     }
+    setTimeout(() => {
+      this.setState({sorting:false,
+        sorted:true});
+    }, animations.length * ANIMATION_SPEED_MS);
   }
 
   bubbleSort() {
-    const animations = getbubbleSortAnimations(this.state.array);
-    // console.log(animations);
-    console.log(animations.length);
+    this.setState({sorting:true});
+    const arrCopy=this.state.array.slice();
+    const animations = getbubbleSortAnimations(arrCopy);
     const arrayBars = document.getElementsByClassName('array-bar');
     for (let i = 0; i < animations.length; i++) {
       
@@ -116,9 +130,11 @@ export default class SortingVisualizer extends React.Component {
           barTwoStyle.backgroundColor = color;
         }, i*ANIMATION_SPEED_MS);
       }
-      
     }
-    console.log("gogogo!!")
+    setTimeout(() => {
+      this.setState({sorting:false,
+        sorted:true});
+    }, animations.length * ANIMATION_SPEED_MS);
   }
 
 
@@ -145,6 +161,8 @@ export default class SortingVisualizer extends React.Component {
           merge ={() => this.mergeSort()} 
           quick ={() => this.quickSort()}
           reset ={()=> this.resetArray()}
+          sorted={this.state.sorted}
+          sorting={this.state.sorting}
           />
         <div className="array-container">
           {array.map((value, idx) => (

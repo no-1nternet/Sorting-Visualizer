@@ -41,3 +41,7 @@ button{
 button:hover{
     background-color: rgba(0,136,100,0.8);
 }
+
+button:disabled{
+    background-color: rgba(0,136,100,0.8);
+}
